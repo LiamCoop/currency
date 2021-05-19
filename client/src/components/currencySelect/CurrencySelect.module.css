@@ -1,0 +1,13 @@
+.container {
+  position: relative;
+  float: left;
+}
+
+.input {
+}
+
+.option {
+  border: 1px solid lightgrey;
+  position: absolute;
+
+}
