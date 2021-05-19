@@ -19,7 +19,7 @@ export const NumberInput = ({value, adjustValue}: NumberType) => {
   return (
     <input 
       value={val} 
-      onChange={(e: any) => validate(e.target.value)}
+      onChange={e => validate(e.target.value)}
       placeholder="value to convert"
     />
   )

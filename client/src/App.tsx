@@ -12,12 +12,20 @@ const ExchangeBaseURL = 'https://v6.exchangerate-api.com/v6';
 const key = process.env.REACT_APP_EXCHANGEKEY;
 
 function App() {
+  const initialCurrency = {
+    code: '',
+    name: '',
+    symbol: '',
+  }
   const [currencies, setCurrencies] = useState<CurrenciesEntity[]>([]);
   // rates should be a hashmap
   const [rates, setRates] = useState<Map<string, number>>(new Map());
   const [input, setInput] = useState<string>('');
   const [output, setOutput] = useState<string>('');
-  const [convert, setConvert] = useState({ first: '', second: '' });
+  const [convert, setConvert] = useState({ 
+    first: initialCurrency, 
+    second: initialCurrency
+  });
 
   // there are 250 countries, only 160 currencies
   useEffect(() => {
@@ -62,14 +70,22 @@ function App() {
   }, [rates])
 
   useEffect(() => {
+    if(parseFloat(input) === 0) {
+      setOutput(String(0))
+      return;
+    }
     let val = parseFloat(input);
-    const cf1 = rates.get(convert.first)
-    const cf2 = rates.get(convert.second)
+    const cf1 = rates.get(convert.first.code)
+    const cf2 = rates.get(convert.second.code)
     if(cf1 && cf2) {
       val = val * cf2 / cf1
     }
     setOutput(val ? String(val) : '');
   }, [input, rates, convert])
+
+  const handleSwap = () => {
+    setConvert({ first: convert.second, second: convert.first });
+  }
 
   return (
     <div className={styles.App}>
@@ -83,17 +99,25 @@ function App() {
           />
           <CurrencySelect 
             currencies={currencies} 
-            select={(code: string) => {
-              setConvert({...convert, first: code})
+            currency={convert.first}
+            select={(currency: CurrenciesEntity) => {
+              setConvert({...convert, first: currency})
             }}
           />
         </div>
+        <div>
+            <p onClick={handleSwap}>swap</p>
+        </div>
         <div className={styles.ioGroup}>
-          <input value={output ? output : ''} placeholder="output"/>
+          <input readOnly
+            value={output ? output : ''} 
+            placeholder="output"
+          />
           <CurrencySelect 
             currencies={currencies} 
-            select={(code: string) => {
-              setConvert({...convert, first: code})
+            currency={convert.second}
+            select={(currency: CurrenciesEntity) => {
+              setConvert({...convert, second: currency})
             }}
           />
         </div>
