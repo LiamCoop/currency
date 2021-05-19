@@ -1,11 +1,28 @@
-.container { }
+.container {
+}
 
 .input {
-  position: relative;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .option {
-  border: 1px solid lightgrey;
-  position: relative;
-  top: 20px;
+  display: block;
+  transition-duration: 0.5s;
+  cursor: pointer;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ddDiv {
+  display: none;
+  transition: all 0.5s ease;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
 }

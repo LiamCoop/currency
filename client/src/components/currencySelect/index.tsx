@@ -27,7 +27,7 @@ export const CurrencySelect = ({
       <input 
         className={styles.input}
         type="text" 
-        placeholder="Search Currencies"
+        placeholder="Search Currencies (ctrl+space to expand/collapse)"
         value={search}
         onKeyDown={e => {
           if(e.key === ' ' && e.ctrlKey) {
@@ -39,7 +39,10 @@ export const CurrencySelect = ({
           setShowDropdown(true)
         }}
       />
-      {showDropdown && currencies.map((currency: CurrenciesEntity) => 
+      <div className={styles.ddDiv} style={ showDropdown ?  
+        {visibility: 'visible', opacity: '1', display: 'block'} : {}
+      }>
+        {currencies.map((currency: CurrenciesEntity) => 
         (currency.name + currency.code).toLowerCase()
           .includes(search.toLowerCase()) ?
             <option
@@ -54,7 +57,9 @@ export const CurrencySelect = ({
             >
               {`${currency.name} (${currency.code})`}
             </option> : null
-      )}
+        )}
+      </div>
+      
 
     </div>
   );
