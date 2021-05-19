@@ -12,24 +12,27 @@ const ExchangeBaseURL = 'https://v6.exchangerate-api.com/v6';
 const key = process.env.REACT_APP_EXCHANGEKEY;
 
 function App() {
-  const initialCurrency = {
-    code: '',
-    name: '',
-    symbol: '',
-  }
   const [currencies, setCurrencies] = useState<CurrenciesEntity[]>([]);
   // rates should be a hashmap
   const [rates, setRates] = useState<Map<string, number>>(new Map());
   const [input, setInput] = useState<string>('');
   const [output, setOutput] = useState<string>('');
   const [convert, setConvert] = useState({ 
-    first: initialCurrency, 
-    second: initialCurrency
+    first: {
+      "code": "CAD",
+      "name": "Canadian dollar",
+      "symbol": "$"
+    }, 
+    second: {
+      "code": "USD",
+      "name": "United State Dollar",
+      "symbol": "$"
+    },
   });
 
   // there are 250 countries, only 160 currencies
   useEffect(() => {
-    const fetchCountries = fetch('https://restcountries.eu/rest/v2/all')
+    fetch('https://restcountries.eu/rest/v2/all')
       .then(res => res.json())
       .then(data => {
         let addedCurrencies = new Set()
@@ -47,7 +50,7 @@ function App() {
   }, [rates])
 
   useEffect(() => {
-    const fetchRates = fetch(`${ExchangeBaseURL}/${key}/latest/USD`)
+    fetch(`${ExchangeBaseURL}/${key}/latest/USD`)
       .then(res => res.json())
       .then(({conversion_rates}: Rates) =>
         setRates(new Map<string, number>(
@@ -70,17 +73,16 @@ function App() {
   }, [rates])
 
   useEffect(() => {
-    if(parseFloat(input) === 0) {
-      setOutput(String(0))
-      return;
-    }
     let val = parseFloat(input);
     const cf1 = rates.get(convert.first.code)
     const cf2 = rates.get(convert.second.code)
     if(cf1 && cf2) {
       val = val * cf2 / cf1
     }
-    setOutput(val ? String(val) : '');
+
+    if(isNaN(val)) setOutput('')
+    else if (Number.isInteger(val)) setOutput(String(val))
+    else setOutput(val.toFixed(2))
   }, [input, rates, convert])
 
   const handleSwap = () => {
@@ -105,9 +107,6 @@ function App() {
             }}
           />
         </div>
-        <div>
-            <p onClick={handleSwap}>swap</p>
-        </div>
         <div className={styles.ioGroup}>
           <input readOnly
             value={output ? output : ''} 
@@ -121,6 +120,9 @@ function App() {
             }}
           />
         </div>
+        <button className={styles.swapButton} onClick={handleSwap}>
+            <p>swap</p>
+        </button>
       </div>
     </div>
   );

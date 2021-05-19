@@ -13,18 +13,13 @@ export const CurrencySelect = ({
   currency,
   select, 
 }: Props) => {
-  let initialSearch = currency.name !== '' ? 
-    `${currency.name} (${currency.code})` : '';
-  const [currencyVal, setCurrencyVal] = useState(currency);
+  const initialSearch = `${currency.name} (${currency.code})`
   const [search, setSearch] = useState<string>(initialSearch);
+  const [currencyVal, setCurrencyVal] = useState(currency);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    if(currencyVal.name !== ''){
-      setSearch(`${currency.name} (${currency.code})`)
-    } else {
-      setSearch('');
-    }
+    setSearch(`${currency.name} (${currency.code})`)
   }, [currencyVal, currency])
 
   return (
