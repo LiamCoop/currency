@@ -14,7 +14,6 @@ const key = process.env.REACT_APP_EXCHANGEKEY;
 
 function App() {
   const [currencies, setCurrencies] = useState<CurrenciesEntity[]>([]);
-  // rates should be a hashmap
   const [rates, setRates] = useState<Map<string, number>>(new Map());
   const [input, setInput] = useState<string>('');
   const [output, setOutput] = useState<string>('');
@@ -31,8 +30,19 @@ function App() {
     },
   });
 
-  // there are 250 countries, only 160 currencies
-  // filter currencies to show only common currencies
+  // fetch & set currencies & exchange rates (160 currencies)
+  useEffect(() => {
+    fetch(`${ExchangeBaseURL}/${key}/latest/USD`)
+      .then(res => res.json())
+      .then(({conversion_rates}: Rates) =>
+        setRates(new Map<string, number>(
+          Object.entries(conversion_rates))
+        )
+      )
+  }, [])
+
+  // fetch currencies from 250 countries, 
+  // reduce to common between rates & countries
   useEffect(() => {
     fetch('https://restcountries.eu/rest/v2/all')
       .then(res => res.json())
@@ -51,29 +61,9 @@ function App() {
       })
   }, [rates])
 
-  useEffect(() => {
-    fetch(`${ExchangeBaseURL}/${key}/latest/USD`)
-      .then(res => res.json())
-      .then(({conversion_rates}: Rates) =>
-        setRates(new Map<string, number>(
-          Object.entries(conversion_rates))
-        )
-      )
-  }, [])
-
-  useEffect(() => {
-    let addedCurrencies = new Set()
-    setCurrencies(
-      currencies.filter(({code}: CurrenciesEntity) => {
-        if (rates.has(code) && !addedCurrencies.has(code)) {
-          addedCurrencies.add(code)
-          return true
-        }
-        return false
-      })
-    )
-  }, [rates])
-
+  
+  // update output to conversion factor * input
+  // triggers on change of input, rates, or i/o currencies (convert)
   useEffect(() => {
     let val: number = parseFloat(input);
     const cf1 = rates.get(convert.first.code)
@@ -93,8 +83,6 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <header></header>
-
       <div className={styles.InputContainer} >
         <div className={styles.input}>
           <NumberInput 
@@ -123,7 +111,7 @@ function App() {
           />
         </div>
         <button className={styles.swapButton} onClick={handleSwap}>
-          <img src={Swap} alt="swap" height="32px" />
+          <img src={Swap} alt="swap" height="60px" />
         </button>
       </div>
     </div>
