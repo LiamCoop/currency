@@ -2,7 +2,20 @@
   text-align: center;
 }
 
-.ioGroup {
+.InputContainer {
+  width: 50%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.input {
+  grid-column: 1;
   display: flex;
   flex-direction: row;
+}
+
+.swapButton {
+  grid-column: 2;
+  grid-row: 1 / -1;
 }

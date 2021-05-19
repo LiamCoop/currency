@@ -1,13 +1,11 @@
-.container {
-  position: relative;
-  float: left;
-}
+.container { }
 
 .input {
+  position: relative;
 }
 
 .option {
   border: 1px solid lightgrey;
-  position: absolute;
-
+  position: relative;
+  top: 20px;
 }

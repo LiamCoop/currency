@@ -6,6 +6,7 @@ import {
   NumberInput,
   Country,
   CurrenciesEntity,
+  Swap,
 } from './components';
 
 const ExchangeBaseURL = 'https://v6.exchangerate-api.com/v6';
@@ -31,6 +32,7 @@ function App() {
   });
 
   // there are 250 countries, only 160 currencies
+  // filter currencies to show only common currencies
   useEffect(() => {
     fetch('https://restcountries.eu/rest/v2/all')
       .then(res => res.json())
@@ -73,7 +75,7 @@ function App() {
   }, [rates])
 
   useEffect(() => {
-    let val = parseFloat(input);
+    let val: number = parseFloat(input);
     const cf1 = rates.get(convert.first.code)
     const cf2 = rates.get(convert.second.code)
     if(cf1 && cf2) {
@@ -93,8 +95,8 @@ function App() {
     <div className={styles.App}>
       <header></header>
 
-      <div className={styles.InputContainers} >
-        <div className={styles.ioGroup}>
+      <div className={styles.InputContainer} >
+        <div className={styles.input}>
           <NumberInput 
             value={input} 
             adjustValue={(val: string) => setInput(val)}
@@ -107,10 +109,10 @@ function App() {
             }}
           />
         </div>
-        <div className={styles.ioGroup}>
+        <div className={styles.input}>
           <input readOnly
-            value={output ? output : ''} 
-            placeholder="output"
+            value={output} 
+            placeholder="Resultant Amount"
           />
           <CurrencySelect 
             currencies={currencies} 
@@ -121,7 +123,7 @@ function App() {
           />
         </div>
         <button className={styles.swapButton} onClick={handleSwap}>
-            <p>swap</p>
+          <img src={Swap} alt="swap" height="32px" />
         </button>
       </div>
     </div>
