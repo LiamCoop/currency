@@ -5,7 +5,7 @@ interface NumberType {
   adjustValue?: (val: string) => void
 }
 
-export const NumberInput = ({value, adjustValue}: NumberType) => {
+export const NumberInput = ({ value, adjustValue }: NumberType) => {
   const [val, setVal] = useState('')
 
   const validate = (val: string) => {
@@ -20,7 +20,7 @@ export const NumberInput = ({value, adjustValue}: NumberType) => {
     <input 
       value={val} 
       onChange={e => validate(e.target.value)}
-      placeholder="value to convert"
+      placeholder="Value to Convert"
     />
   )
 }
