@@ -27,7 +27,7 @@ export const CurrencySelect = ({
       <input 
         className={styles.input}
         type="text" 
-        placeholder="Search Currencies (ctrl+space to expand/collapse)"
+        placeholder="Search Currencies"
         value={search}
         onKeyDown={e => {
           if(e.key === ' ' && e.ctrlKey) {
