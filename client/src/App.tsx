@@ -6,7 +6,6 @@ import {
   NumberInput,
   Country,
   CurrenciesEntity,
-  Swap,
 } from './components';
 
 const ExchangeBaseURL = 'https://v6.exchangerate-api.com/v6';

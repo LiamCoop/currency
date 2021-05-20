@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './NumberInput.module.css';
 
 interface NumberType { 
   value: string,
