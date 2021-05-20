@@ -13,13 +13,13 @@ export const CurrencySelect = ({
   currency,
   select, 
 }: Props) => {
-  const initialSearch = `${currency.name} (${currency.code})`
+  const initialSearch = `${currency.name} (${currency.code})`;
   const [search, setSearch] = useState<string>(initialSearch);
   const [currencyVal, setCurrencyVal] = useState(currency);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    setSearch(`${currency.name} (${currency.code})`)
+    setSearch(`${currency.name} (${currency.code})`);
   }, [currencyVal, currency])
 
   return (
@@ -40,7 +40,8 @@ export const CurrencySelect = ({
         }}
       />
       <div className={styles.ddDiv} style={ showDropdown ?  
-        {visibility: 'visible', opacity: '1', display: 'block'} : {}
+        {visibility: 'visible', opacity: '1', display: 'block'} : 
+        {visibility: 'hidden', opacity: '0', display: 'none'}
       }>
         {currencies.map((currency: CurrenciesEntity) => 
         (currency.name + currency.code).toLowerCase()

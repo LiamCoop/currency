@@ -1,28 +1,36 @@
-.container {
-}
-
 .input {
+  color: #34312D;
   box-sizing: border-box;
   width: 100%;
 }
 
 .option {
+  font-weight: 500;
   display: block;
   transition-duration: 0.5s;
   cursor: pointer;
-  border-bottom: 1px solid lightgrey;
+  border: 1px solid #312e2e;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 4px;
+  background-color: #e3dac9;
+  color: #34312D;
+  border-radius: 5px;
+  max-width: 300px;
 }
 
 .ddDiv {
+  min-width: 25%;
+  text-overflow: wrap;
   display: none;
-  transition: all 0.5s ease;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  visibility: hidden;
   opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-color: #34312D;
   position: absolute;
+  max-height: 50%;
+  overflow-y: scroll;
 }
